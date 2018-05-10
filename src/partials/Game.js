@@ -13,13 +13,12 @@ export default class Game {
 		
 		this.gameElement=document.getElementById(this.element);
 		this.board = new Board(this.width, this.height);
-		// this.paddle = new Paddle('256', '8', '56','30',((this.height)/2));
 		this.paddleWidth = 8;
 		this.paddleHeight = 56;
 		this.boardGap = 10;
 		
 		
-		this.ball = new Ball(10, this.width, this.height);
+		this.ball = new Ball(15, this.width, this.height);
 
 		this.player1 = new Paddle(
 			this.height,
@@ -59,7 +58,7 @@ export default class Game {
 		this.board.render(svg);
 		this.player1.render(svg);
 		this.player2.render(svg);
-		this.ball.render(svg);
+		this.ball.render(svg, this.player1, this.player2);
 	}
 
 }

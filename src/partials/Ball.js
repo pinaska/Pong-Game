@@ -8,7 +8,7 @@ export default class Ball{
         this.direction = 1;
     }
 
-  render(svg){
+  render(svg, player1, player2){
       let circle = document.createElementNS(SVG_NS, 'circle');
       circle.setAttributeNS(null, 'r', this.radius);
       circle.setAttributeNS(null,'cx', this.boardWidth / 2);

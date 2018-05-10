@@ -73,6 +73,7 @@ html {
 body {
   align-items: center;
   display: flex;
+  flex-direction: column;
   font-family: 'Silkscreen Web', monotype;
   height: 100vh;
   justify-content: center;
@@ -83,4 +84,8 @@ h1 {
   font-size: 2.5rem;
   margin-bottom: 1rem; 
   text-align: center;
+}
+footer  a:after {
+  font-family: 'FontAwesome';
+  content: '\f09b';
 }
