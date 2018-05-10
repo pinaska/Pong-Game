@@ -1,5 +1,6 @@
 import Board from './Board';
 import Paddle from './Paddle';
+import Ball from './Ball';
 import {SVG_NS, KEYS} from '../settings';
 
 
@@ -16,6 +17,9 @@ export default class Game {
 		this.paddleWidth = 8;
 		this.paddleHeight = 56;
 		this.boardGap = 10;
+		
+		
+		this.ball = new Ball(10, this.width, this.height);
 
 		this.player1 = new Paddle(
 			this.height,
@@ -55,6 +59,7 @@ export default class Game {
 		this.board.render(svg);
 		this.player1.render(svg);
 		this.player2.render(svg);
+		this.ball.render(svg);
 	}
 
 }
