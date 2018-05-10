@@ -9,8 +9,21 @@
 			<h1>Pong</h1>
 			<div id="game"></div>
 			<!-- Rough-out your SVG mark-up here to start... -->
-			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 260" width="500" height="500" preserveAspectRation="none">
-				<rect id="box" x="5" y="0" width="200" height="150" rx="5"/>
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 256" width="512" height="256" preserveAspectRation="none">
+				<!--board-->
+				<rect x="0" y="0" width="512" height="256"  fill="#353535"/>
+				<!--first paddle-->
+				<rect x="5" y="100" width="8" height="56"  fill="#ffffff"/>
+				<!--midline-->
+				<line x1="256" y1="0" x2="256" y2="256" stroke="#ffffff" stroke-dasharray="20,15" stroke-width:"5"/>
+				<!--second paddle-->
+				<rect x="499" y="100" width="8" height="56"  fill="#ffffff"/>
+				<!--ball-->
+				<circle  cx="256" cy="128" r="10" fill="#ffffff"/>
+				
+
+				
+
 			</svg>
 		</div>
 		<script type="text/javascript" src="build/bundle.js"></script>

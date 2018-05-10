@@ -9,6 +9,7 @@ module.exports = {
 	entry: {
 		app: './src/index.js',
 	},
+	// open: false,
 
 	output: {
 		path: build,
@@ -55,6 +56,7 @@ module.exports = {
 		port: 3000,
 		stats: 'errors-only',
 		publicPath: '/build/',
+		open:false,
 		watchOptions: {
 			aggregateTimeout: 300,
 			poll: 1000,
@@ -63,6 +65,6 @@ module.exports = {
 	},
 
 	plugins: [
-		new OpenBrowserPlugin({ url: 'http://localhost:3000/' }),
+		// new OpenBrowserPlugin({ url: 'http://localhost:3000/' }),
 	]
 };
