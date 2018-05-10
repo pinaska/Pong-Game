@@ -1,5 +1,6 @@
-import {SVG_NS} from '../settings';
 import Board from './Board';
+import {SVG_NS} from '../settings';
+
 
 export default class Game {
 
@@ -9,6 +10,7 @@ export default class Game {
 		this.height = height;
 		
 		this. gameElement=document.getElementById(this.element);
+		this.board = new Board(this.width, this.height);
 	
 		// Other code goes here...
 	}
@@ -20,7 +22,10 @@ export default class Game {
 		svg.setAttributeNS(null, 'width', this.width);
 		svg.setAttributeNS(null, 'height', this.height);
 		svg.setAttributeNS(null, 'viewBox', `0 0 ${this.width} ${this.height}`);
+		
 		this.gameElement.appendChild(svg);
+
+		this.board.render(svg);
 	}
 
 }
