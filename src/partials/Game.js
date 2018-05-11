@@ -17,7 +17,7 @@ export default class Game {
 		this.paddleHeight = 56;
 		this.boardGap = 10;
 		
-		
+		//get rid of boardWidth and boardHeight 
 		this.ball = new Ball(this.width / 2, this.height / 2, 8);
 
 		this.player1 = new Paddle(

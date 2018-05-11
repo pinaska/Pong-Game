@@ -7,6 +7,7 @@ export default class Ball{
         this.y = 0;
         this.vx = 0;
         this.vy = 0;
+        this.direction = 1;
         this.reset(x,y);
     }
 
@@ -16,11 +17,14 @@ export default class Ball{
         this.vy = 0;
         this.vx = 0;
         // Using round here because floor introduces bias
-        while (this.vy === 0 || this.vx === 0)
-        {
-            this.vx = Math.round(Math.random() * 10 - 5);
-            this.vy = Math.round(Math.random() * 10 - 5);    
-        }
+        // while (this.vy === 0 || this.vx === 0)
+        // {
+        //     this.vx = Math.round(Math.random() * 10 - 5);
+        //     this.vy = Math.round(Math.random() * 10 - 5);    
+        // }
+        //with the followng code the angles changes and game is more interesting and prevent lazy pond (When you can just leave your paddles and go for a lunch)
+        this.vy=Math.floor(Math.random()*10 -5);
+        this.vx= this.direction*(6-Math.abs(this.vy));
     }
 
     collideWithBox(x, y, width, height){
@@ -57,7 +61,7 @@ export default class Ball{
         }
         return false;
     }
-
+    //create a method and call it on game.js instead of rendering it in ball.js
     move()
     {
         this.x += this.vx;
