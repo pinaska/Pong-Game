@@ -81,11 +81,34 @@ body {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   margin-bottom: 1rem; 
   text-align: center;
 }
-footer  a:after {
-  font-family: 'FontAwesome';
-  content: '\f09b';
+h2{
+  font-size: 1.5rem;
+}
+
+.game-instruction{
+  text-align: center;
+  padding: 20px 20px;
+  border: 1px solid pink;
+  margin: 10px;
+  width: 512px;
+  box-sizing:border-box;
+}
+ul{
+  display:flex;
+  justify-content: space-around;
+}
+span{
+font-size: 0.6rem;
+}
+footer{
+  text-align: center;
+  margin: 0 auto;
+  font-family: Verdana, sans-serif;
+  text-transform: lowercase;
+  padding-top: 60px;
+  font-size: 0.7rem;
 }

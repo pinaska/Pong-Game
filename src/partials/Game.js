@@ -18,7 +18,7 @@ export default class Game {
 		this.boardGap = 10;
 		
 		
-		this.ball = new Ball(15, this.width, this.height);
+		this.ball = new Ball(this.width / 2, this.height / 2, 8);
 
 		this.player1 = new Paddle(
 			this.height,
@@ -28,7 +28,6 @@ export default class Game {
 			((this.height - this.paddleHeight)/2),
 			KEYS.a,
 			KEYS.z
-
 		);
 
 		this.player2 = new Paddle(
@@ -45,7 +44,26 @@ export default class Game {
 		// Other code goes here...
 	}
 
+	moveObjects() {
+		this.ball.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height);
+		this.ball.collideWithBox(this.player2.x, this.player2.y, this.player2.width, this.player2.height);
+		this.ball.collideWithBox(0, 0, this.width, 1);
+		this.ball.collideWithBox(0, this.height, this.width, 1);
+
+		if (this.ball.collideWithBox(0, 0, 1, this.height)){
+			this.player2.score += 1;
+			this.ball.reset(this.width/2, this.height/2);
+		}
+		if (this.ball.collideWithBox(this.width, 0, 1, this.height)){
+			this.player1.score += 1;
+			this.ball.reset(this.width/2, this.height/2);
+		}
+
+		this.ball.move();
+	}
+
 	render() {
+		this.moveObjects();
 		this.gameElement.innerHTML='';
 		
 		let svg = document.createElementNS(SVG_NS, 'svg');
@@ -58,7 +76,7 @@ export default class Game {
 		this.board.render(svg);
 		this.player1.render(svg);
 		this.player2.render(svg);
-		this.ball.render(svg, this.player1, this.player2);
+		this.ball.render(svg);
 	}
 
 }
