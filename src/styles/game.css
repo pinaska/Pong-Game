@@ -101,6 +101,9 @@ ul{
   display:flex;
   justify-content: space-around;
 }
+li > p{
+  font-size: 0.8rem;
+}
 span{
 font-size: 0.6rem;
 }

@@ -11,6 +11,26 @@ export default class Ball{
         this.reset(x,y);
     }
 
+    paddleCollision(player1, player2) {
+        if (this.vx > 0) {
+          //detect player2 paddle collision
+          let paddle =  player2.coordinates(player2.x,player2.y, player2.width, player2.height);
+          //es.next array destructuring
+          let [leftX, rightX, topY, bottomY] = paddle;
+
+          if (
+          (this.x + this.radius >= leftX) && 
+          (this.x + this.radius <= rightX) && 
+          (this.y >= topY && this.y <= bottomY)
+        ){
+              this.vx = -this.vx;
+          }
+
+        } else {
+          //...
+        }
+      }
+
     reset(x,y){
         this.x = x;
         this.y = y;
@@ -19,14 +39,33 @@ export default class Ball{
         // Using round here because floor introduces bias
         // while (this.vy === 0 || this.vx === 0)
         // {
-        //     this.vx = Math.round(Math.random() * 10 - 5);
-        //     this.vy = Math.round(Math.random() * 10 - 5);    
+        //    this.vx = Math.round(Math.random() * 10 - 5);
+        //    this.vy = Math.round(Math.random() * 10 - 5);    
         // }
         //with the followng code the angles changes and game is more interesting and prevent lazy pond (When you can just leave your paddles and go for a lunch)
-        this.vy=Math.floor(Math.random()*10 -5);
-        this.vx= this.direction*(6-Math.abs(this.vy));
+        
+        while(this.vy === 0){
+            this.vy = Math.floor(Math.random() * 10 - 5);
+        }
+        this.vx = this.direction * (6-Math.abs(this.vy));
     }
 
+    wallCollision(){
+        const hitLeft = this.x - this.radius <= 0;
+        const hitRight = this.x + this.radius >= this.boardWidth;//check if boardWidth can be just width from game.js
+        const hitTop = this.y - this.radius <= 0;
+        const hitBottom = this.y + this.radius >= this.boardHeight;//can be this.width?
+
+        if (hitLeft || hitRight){
+            this.vx *= -1;
+        }
+        else if (hitTop || hitBottom){
+            this.vy *= -1;
+        }
+    
+    }
+
+      //10.05
     collideWithBox(x, y, width, height){
         let halfWidth = width / 2;
         let halfHeight = height / 2;
@@ -60,15 +99,20 @@ export default class Ball{
             return true;
         }
         return false;
-    }
-    //create a method and call it on game.js instead of rendering it in ball.js
+    }//end of collideWithBox
+    //create a method and call it on game.js instead of rendering it in ball.js; during class we rendered it within ball.js render method
     move()
     {
         this.x += this.vx;
         this.y += this.vy;
     }
 
-    render(svg){
+    
+
+    render(svg, player1, player2){
+        this.wallCollision();
+
+        //draw ball
         let circle = document.createElementNS(SVG_NS, 'circle');
         circle.setAttributeNS(null, 'r', this.radius);
         circle.setAttributeNS(null, 'cx', this.x);
@@ -76,5 +120,7 @@ export default class Ball{
         circle.setAttributeNS(null, 'fill', 'yellow');
 
         svg.appendChild(circle);
+
+        
     }
 }

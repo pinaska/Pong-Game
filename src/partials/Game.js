@@ -16,6 +16,7 @@ export default class Game {
 		this.paddleWidth = 8;
 		this.paddleHeight = 56;
 		this.boardGap = 10;
+		this.pause = false;
 		
 		//get rid of boardWidth and boardHeight 
 		this.ball = new Ball(this.width / 2, this.height / 2, 8);
@@ -40,9 +41,14 @@ export default class Game {
 			KEYS.down
 		);
 
-	
-		// Other code goes here...
+
+		document.addEventListener('keydown', event => {
+		if(event.key === KEYS.spaceBar){
+		this.pause = !this.pause;
+		}
+        });
 	}
+
 
 	moveObjects() {
 		this.ball.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height);
@@ -63,6 +69,10 @@ export default class Game {
 	}
 
 	render() {
+		//render the pause method
+	if(this.pause){
+			return;
+		}
 		this.moveObjects();
 		this.gameElement.innerHTML='';
 		
@@ -76,7 +86,9 @@ export default class Game {
 		this.board.render(svg);
 		this.player1.render(svg);
 		this.player2.render(svg);
-		this.ball.render(svg);
+		this.ball.render(svg, this.player1, this.player2);
+
+		
 	}
 
 }
