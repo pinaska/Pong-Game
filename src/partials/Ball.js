@@ -9,6 +9,7 @@ export default class Ball{
         this.vy = 0;
         this.direction = 1;
         this.reset(x,y);
+        this.ping = new Audio('public/sounds/pong-01.wav');
     }
 
     paddleCollision(player1, player2) {
@@ -24,10 +25,21 @@ export default class Ball{
           (this.y >= topY && this.y <= bottomY)
         ){
               this.vx = -this.vx;
+              this.ping.play();
           }
 
         } else {
-          //...
+          let paddle = player1.coordinates(player1.x, player1.y, player1.width, player1.height);
+          let [leftX, rightX, topY, bottomY] = paddle;
+
+          if(
+              (this.x - this.radius <= rightX) &&
+              (this.x - this.radius >= leftX) &&
+              (this.y >= topY && this.y <=bottomY)
+          ) {
+              this.vx *= -1;
+              this.ping.play();
+          }
         }
       }
 
@@ -101,13 +113,21 @@ export default class Ball{
         return false;
     }//end of collideWithBox
     //create a method and call it on game.js instead of rendering it in ball.js; during class we rendered it within ball.js render method
+   
+   
     move()
     {
         this.x += this.vx;
         this.y += this.vy;
     }
+    // //goal method
+    // goal(player){
+    // player.score++;
+    // this.reset();
+    // // console.log(player.score);
+    // }
 
-    
+
 
     render(svg, player1, player2){
         this.wallCollision();
@@ -121,6 +141,17 @@ export default class Ball{
 
         svg.appendChild(circle);
 
-        
+        //     //detect goal
+        // let rightGoal = this.x + this.radius >= this.boardWidth;
+        // let leftGoal = this.x -this.radius <= 0;
+
+        // if  (rightGoal){
+        //  this.goal(player1);
+        //  this.direction = -1;
+        // } 
+        // else if (leftGoal){
+        //  this.goal(player2);
+        //  this.direction = 1;
+        // }
     }
 }

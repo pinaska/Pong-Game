@@ -1,6 +1,7 @@
 import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
+import Score from './Score';
 import {SVG_NS, KEYS} from '../settings';
 
 
@@ -20,6 +21,7 @@ export default class Game {
 		
 		//get rid of boardWidth and boardHeight 
 		this.ball = new Ball(this.width / 2, this.height / 2, 8);
+		this.ball2 = new Ball(this.width / 2, this.height / 2, 4);
 
 		this.player1 = new Paddle(
 			this.height,
@@ -41,6 +43,9 @@ export default class Game {
 			KEYS.down
 		);
 
+		this.score1 = new Score(this.width / 2 - 50, 30, 30);
+		this.score2 = new Score(this.width / 2 + 25, 30, 30);
+
 
 		document.addEventListener('keydown', event => {
 		if(event.key === KEYS.spaceBar){
@@ -49,7 +54,7 @@ export default class Game {
         });
 	}
 
-
+	//10.05
 	moveObjects() {
 		this.ball.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height);
 		this.ball.collideWithBox(this.player2.x, this.player2.y, this.player2.width, this.player2.height);
@@ -65,14 +70,32 @@ export default class Game {
 			this.ball.reset(this.width/2, this.height/2);
 		}
 
+
+		//second ball
+		this.ball2.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height);
+		this.ball2.collideWithBox(this.player2.x, this.player2.y, this.player2.width, this.player2.height);
+		this.ball2.collideWithBox(0, 0, this.width, 1);
+		this.ball2.collideWithBox(0, this.height, this.width, 1);
+
+		if (this.ball2.collideWithBox(0, 0, 1, this.height)){
+			this.player2.score += 1;
+			this.ball2.reset(this.width/2, this.height/2);
+		}
+		if (this.ball2.collideWithBox(this.width, 0, 1, this.height)){
+			this.player1.score += 1;
+			this.ball2.reset(this.width/2, this.height/2);
+		}
+
 		this.ball.move();
+		this.ball2.move();
 	}
 
 	render() {
 		//render the pause method
-	if(this.pause){
+		if(this.pause){
 			return;
 		}
+		//start moving balls
 		this.moveObjects();
 		this.gameElement.innerHTML='';
 		
@@ -87,6 +110,10 @@ export default class Game {
 		this.player1.render(svg);
 		this.player2.render(svg);
 		this.ball.render(svg, this.player1, this.player2);
+		this.ball2.render(svg);
+
+		this.score1.render(svg, this.player1.score);
+		this.score2.render(svg, this.player2.score);
 
 		
 	}
