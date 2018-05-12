@@ -18,3 +18,6 @@ A basic pong game using SVGs and  ES.next.
 * method: Math.round seems to be more 'fair' when it comes to ball movement directions than Math.floor;
 * Code has been written as code-along excercise with RED instructions, with comments from software developer (code was originally placed in partials files, now in Game.js.,responsible for all game mechanisms: ball movement, paddle movement, ball vs paddle vs box walls collisions);
 * The game has been tested by 6y and 11y boys. Based on their input, UI has been changed for player 1: keys for paddle's movement: 'w' & 's'. One user case: While playing,caps lock was hit by accident and the key listeners stopped working (to solve: method toLowerCase).
+* bugs: 
+ 1. when ball hits paddle and box wall, it is kind of "trapped" and keeps spinning;
+ 2. the game pauses when player wins, but it should stop. Otherwise, when player presses space bar, game continues to play even after 50 points.

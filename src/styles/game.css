@@ -66,6 +66,9 @@ table {
  * GAME
  */
 
+*{
+  box-sizing: border-box;
+}
 html {
   font-size: 16px;
 }
@@ -75,9 +78,10 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Silkscreen Web', monotype;
-  height: 100vh;
+  height: 100%;
   justify-content: center;
   width: 100%;
+  padding: 5px 0;
 }
 
 h1 {
@@ -85,28 +89,41 @@ h1 {
   margin-bottom: 1rem; 
   text-align: center;
 }
-
+h1, h2, p{
+  padding: 5px 0px;
+}
 /* heart animation */
 .heart{
   animation: pulse 2s infinite;
 }
 
-
 h2{
   font-size: 1.5rem;
 }
-
+.game-instruction{
+  border: 1px solid #D90368;
+  padding: 5px;
+  box-sizing: border-box; 
+  text-align: center;
+  margin: 20px 0;
+}
+button{
+  outline: white;
+  background: #FFE01F;
+  font-family: inherit;
+  /* animation: pulse 2s infinite; */
+  padding: 5px;
+  border: 1px solid #FFE01F;
+}
 .instruction-hidden{
   text-align: center;
   padding: 0 20px;
-  border: 1px solid pink;
   margin: 10px 0;
-  width: 512px;
   height: 0px;
   overflow: hidden;
   box-sizing:border-box;
   transition: all 1s ease-in-out;
-  background: #eeee;
+  background:#FFE01F;
 }
 ul{
   display:flex;
@@ -123,6 +140,5 @@ footer{
   margin: 0 auto;
   font-family: Verdana, sans-serif;
   text-transform: lowercase;
-  /* padding-top: 60px; */
   font-size: 0.7rem;
 }

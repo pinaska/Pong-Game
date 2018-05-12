@@ -32,7 +32,7 @@ const game = new Game('game', 512, 256);
 
 //trying ease in css animation 
 let open = false;
-let initHeight = 120;
+let initHeight = 180;
 
 function toggleInstruction() {
     let instruction = document.getElementById('game-instruction-hidden');
