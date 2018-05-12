@@ -9,7 +9,6 @@ export default class Ball{
         this.vy = 0;
         this.direction = 1;
         this.reset(x,y);
-        this.ping = new Audio('public/sounds/pong-01.wav');
     }
 
     paddleCollision(player1, player2) {
@@ -49,17 +48,17 @@ export default class Ball{
         this.vy = 0;
         this.vx = 0;
         // Using round here because floor introduces bias
-        // while (this.vy === 0 || this.vx === 0)
-        // {
-        //    this.vx = Math.round(Math.random() * 10 - 5);
-        //    this.vy = Math.round(Math.random() * 10 - 5);    
-        // }
+        while (this.vy === 0 || this.vx === 0)
+        {
+           this.vx = Math.round(Math.random() * 10 - 5);
+           this.vy = Math.round(Math.random() * 10 - 5);    
+        }
         //with the followng code the angles changes and game is more interesting and prevent lazy pond (When you can just leave your paddles and go for a lunch)
         
-        while(this.vy === 0){
-            this.vy = Math.floor(Math.random() * 10 - 5);
-        }
-        this.vx = this.direction * (6-Math.abs(this.vy));
+        // while(this.vy === 0){
+        //     this.vy = Math.floor(Math.random() * 10 - 5);
+        // }
+        // this.vx = this.direction * (6-Math.abs(this.vy));
     }
 
     wallCollision(){
@@ -129,7 +128,7 @@ export default class Ball{
 
 
 
-    render(svg, player1, player2){
+    render(svg){
         this.wallCollision();
 
         //draw ball

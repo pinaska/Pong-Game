@@ -17,79 +17,97 @@ export default class Game {
 		this.paddleWidth = 8;
 		this.paddleHeight = 56;
 		this.boardGap = 10;
+		this.maxPoints = 50;
 		this.pause = false;
+		this.winner = '';
 		
-		//get rid of boardWidth and boardHeight 
 		this.ball = new Ball(this.width / 2, this.height / 2, 8);
 		this.ball2 = new Ball(this.width / 2, this.height / 2, 4);
 
 		this.player1 = new Paddle(
-			this.height,
 			this.paddleWidth,
 			this.paddleHeight,
 			this.boardGap,
-			((this.height - this.paddleHeight)/2),
-			KEYS.a,
-			KEYS.z,
-			'player1'
+			((this.height - this.paddleHeight)/2)
 		);
 
 		this.player2 = new Paddle(
-			this.height,
 			this.paddleWidth,
 			this.paddleHeight,
 			((this.width - this.boardGap - this.paddleWidth)),
-			((this.height - this.paddleHeight)/2),
-			KEYS.up,
-			KEYS.down,
-			'player2'
+			((this.height - this.paddleHeight)/2)
 		);
 
-		this.score1 = new Score(this.width / 2 - 50, 30, 30);
-		this.score2 = new Score(this.width / 2 + 25, 30, 30);
+		/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/text-anchor
+		this.score1 = new Score(this.width / 2 - 25, 30, 30, 'end');
+		this.score2 = new Score(this.width / 2 + 25, 30, 30, 'start');
+		this.status = new Score(this.width / 2, this.height / 2, 48);
+		this.colon = new Score(this.width / 2, 30, 30);
 
+		this.pingSound = new Audio('public/sounds/pong-01.wav');
 
-		document.addEventListener('keydown', event => {
-		if(event.key === KEYS.spaceBar){
-		this.pause = !this.pause;
-		}
-        });
+		this.keyState = {};
+ 
+        document.addEventListener('keydown', event => {
+            this.keyState[event.key || event.which] = true;   
+			if(event.key === KEYS.spaceBar){
+				this.pause = !this.pause;
+				}
+		}, true);
+
+        document.addEventListener('keyup', event => {
+            this.keyState[event.key || event.which] = false;
+        }, true);  
+
 	}
 
+	movePaddle(paddle, up, down) {
+        // Player movement
+        if (this.keyState[up]) {
+			paddle.y = Math.max(0, paddle.y - paddle.speed);
+		}
+		if (this.keyState[down]) {
+			paddle.y = Math.min(this.height - paddle.height, paddle.y + paddle.speed);
+		}
+	}
+
+	moveBall(ball)
+	{
+		if (ball.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height)) {
+			this.pingSound.play();
+		}
+		if (ball.collideWithBox(this.player2.x, this.player2.y, this.player2.width, this.player2.height)) {
+			this.pingSound.play();
+		}
+
+		ball.collideWithBox(0, 0, this.width, 1);
+		ball.collideWithBox(0, this.height, this.width, 1);
+
+		if (ball.collideWithBox(0, 0, 1, this.height)){
+			this.player2.score += 1;
+			if(this.player2.score === this.maxPoints){
+				this.pause = true;
+				this.winner = 'player 2';
+			}
+			ball.reset(this.width/2, this.height/2);
+		}
+		if (ball.collideWithBox(this.width, 0, 1, this.height)){
+			this.player1.score += 1;
+			if(this.player1.score === this.maxPoints){
+				this.pause = true;
+				this.winner = 'player 1';
+			}
+			ball.reset(this.width/2, this.height/2);
+		}
+		ball.move();
+	}
 	//10.05
 	moveObjects() {
-		this.ball.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height);
-		this.ball.collideWithBox(this.player2.x, this.player2.y, this.player2.width, this.player2.height);
-		this.ball.collideWithBox(0, 0, this.width, 1);
-		this.ball.collideWithBox(0, this.height, this.width, 1);
-
-		if (this.ball.collideWithBox(0, 0, 1, this.height)){
-			this.player2.score += 1;
-			this.ball.reset(this.width/2, this.height/2);
-		}
-		if (this.ball.collideWithBox(this.width, 0, 1, this.height)){
-			this.player1.score += 1;
-			this.ball.reset(this.width/2, this.height/2);
-		}
-
-
-		//second ball
-		this.ball2.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height);
-		this.ball2.collideWithBox(this.player2.x, this.player2.y, this.player2.width, this.player2.height);
-		this.ball2.collideWithBox(0, 0, this.width, 1);
-		this.ball2.collideWithBox(0, this.height, this.width, 1);
-
-		if (this.ball2.collideWithBox(0, 0, 1, this.height)){
-			this.player2.score += 1;
-			this.ball2.reset(this.width/2, this.height/2);
-		}
-		if (this.ball2.collideWithBox(this.width, 0, 1, this.height)){
-			this.player1.score += 1;
-			this.ball2.reset(this.width/2, this.height/2);
-		}
-
-		this.ball.move();
-		this.ball2.move();
+		this.movePaddle(this.player1, 'a', 'z');
+		this.movePaddle(this.player2, 'ArrowUp', 'ArrowDown');
+		
+		this.moveBall(this.ball);
+		this.moveBall(this.ball2);
 	}
 
 	render() {
@@ -109,13 +127,16 @@ export default class Game {
 		this.gameElement.appendChild(svg);
 
 		this.board.render(svg);
-		this.player1.render(svg);
 		this.player2.render(svg);
-		this.ball.render(svg, this.player1, this.player2);
+		this.player1.render(svg);
+		this.ball.render(svg);
 		this.ball2.render(svg);
-
+		if (this.winner.length > 0) {
+			this.status.render(svg, this.winner + ' won!');
+		}
 		this.score1.render(svg, this.player1.score);
 		this.score2.render(svg, this.player2.score);
+		this.colon.render(svg, ':');
 
 		
 	}
