@@ -47,16 +47,20 @@ export default class Game {
 		this.pingSound = new Audio('public/sounds/pong-01.wav');
 
 		this.keyState = {};
+
+		function getKey(event) {
+			return (event.key || event.which).toLowerCase();
+		}
  
         document.addEventListener('keydown', event => {
-            this.keyState[event.key || event.which] = true;   
-			if(event.key === KEYS.spaceBar){
+            this.keyState[getKey(event)] = true;   
+			if(event.key === ' ') {
 				this.pause = !this.pause;
-				}
+			}
 		}, true);
 
         document.addEventListener('keyup', event => {
-            this.keyState[event.key || event.which] = false;
+            this.keyState[getKey(event)] = false;
         }, true);  
 
 	}
@@ -72,7 +76,7 @@ export default class Game {
 	}
 
 	moveBall(ball)
-	{
+	{	//add sound when the paddle and ball meet
 		if (ball.collideWithBox(this.player1.x, this.player1.y, this.player1.width, this.player1.height)) {
 			this.pingSound.play();
 		}
@@ -82,7 +86,7 @@ export default class Game {
 
 		ball.collideWithBox(0, 0, this.width, 1);
 		ball.collideWithBox(0, this.height, this.width, 1);
-
+		//check the score and display winner
 		if (ball.collideWithBox(0, 0, 1, this.height)){
 			this.player2.score += 1;
 			if(this.player2.score === this.maxPoints){
@@ -101,10 +105,10 @@ export default class Game {
 		}
 		ball.move();
 	}
-	//10.05
+	//one method for paddles and ball movement
 	moveObjects() {
-		this.movePaddle(this.player1, 'a', 'z');
-		this.movePaddle(this.player2, 'ArrowUp', 'ArrowDown');
+		this.movePaddle(this.player1, 'w', 's');
+		this.movePaddle(this.player2, 'arrowup', 'arrowdown');
 		
 		this.moveBall(this.ball);
 		this.moveBall(this.ball2);

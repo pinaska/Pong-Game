@@ -123,6 +123,6 @@ footer{
   margin: 0 auto;
   font-family: Verdana, sans-serif;
   text-transform: lowercase;
-  padding-top: 60px;
+  /* padding-top: 60px; */
   font-size: 0.7rem;
 }

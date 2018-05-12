@@ -4,5 +4,17 @@ A basic pong game using SVGs and  ES.next.
 3rd project of RED Academy Spring 2018
 
 ## used:
-* Object Oriented Programming; plain JavaScript, no libraries
-* Webpack (hint: running npm in Ubuntu terminal might caused issue with opening localhost - hence this plugin was commented out from webpack.config file; tbc.)
+* The game elements are rendered as SVGs objects.
+* Object Oriented Programming; objects and class concepts;
+* Written in plain JavaScript, no libraries.
+* Webpack (hint: running npm in Ubuntu terminal might caused issue with opening localhost - hence this plugin was commented out from webpack.config file; tbc.);
+* Stretch goals:
+-- two balls instead of one (different size of second ball),
+-- hide/show game instruction ( I used onclick event listener with css transition),
+-- display the winner once one of the players' score is 50
+
+### comments on code writting and UI
+* For future learning objectives: check why not using HTML Canvas?);
+* method: Math.round seems to be more 'fair' when it comes to ball movement directions than Math.floor;
+* Code has been written as code-along excercise with RED instructions, with comments from software developer (code was originally placed in partials files, now in Game.js.,responsible for all game mechanisms: ball movement, paddle movement, ball vs paddle vs box walls collisions);
+* The game has been tested by 6y and 11y boys. Based on their input, UI has been changed for player 1: keys for paddle's movement: 'w' & 's'. One user case: While playing,caps lock was hit by accident and the key listeners stopped working (to solve: method toLowerCase).
