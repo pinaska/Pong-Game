@@ -89,11 +89,11 @@ h2{
   font-size: 1.5rem;
 }
 
-.game-instruction-hidden{
+.instruction-hidden{
   text-align: center;
   padding: 20px 20px;
   border: 1px solid pink;
-  margin: 10px;
+  margin: 10px 0;
   width: 512px;
   box-sizing:border-box;
 }
