@@ -11,37 +11,6 @@ export default class Ball{
         this.reset(x,y);
     }
 
-    paddleCollision(player1, player2) {
-        if (this.vx > 0) {
-          //detect player2 paddle collision
-          let paddle =  player2.coordinates(player2.x,player2.y, player2.width, player2.height);
-          //es.next array destructuring
-          let [leftX, rightX, topY, bottomY] = paddle;
-
-          if (
-          (this.x + this.radius >= leftX) && 
-          (this.x + this.radius <= rightX) && 
-          (this.y >= topY && this.y <= bottomY)
-        ){
-              this.vx = -this.vx;
-              this.ping.play();
-          }
-
-        } else {
-          let paddle = player1.coordinates(player1.x, player1.y, player1.width, player1.height);
-          let [leftX, rightX, topY, bottomY] = paddle;
-
-          if(
-              (this.x - this.radius <= rightX) &&
-              (this.x - this.radius >= leftX) &&
-              (this.y >= topY && this.y <=bottomY)
-          ) {
-              this.vx *= -1;
-              this.ping.play();
-          }
-        }
-      }
-
     reset(x,y){
         this.x = x;
         this.y = y;
@@ -103,12 +72,6 @@ export default class Ball{
         this.x += this.vx;
         this.y += this.vy;
     }
-    // //goal method
-    // goal(player){
-    // player.score++;
-    // this.reset();
-    // // console.log(player.score);
-    // }
 
 
 
@@ -121,18 +84,5 @@ export default class Ball{
         circle.setAttributeNS(null, 'fill', 'yellow');
 
         svg.appendChild(circle);
-
-        //     //detect goal
-        // let rightGoal = this.x + this.radius >= this.boardWidth;
-        // let leftGoal = this.x -this.radius <= 0;
-
-        // if  (rightGoal){
-        //  this.goal(player1);
-        //  this.direction = -1;
-        // } 
-        // else if (leftGoal){
-        //  this.goal(player2);
-        //  this.direction = 1;
-        // }
     }
 }
