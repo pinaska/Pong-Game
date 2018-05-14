@@ -21,3 +21,6 @@ A basic pong game using SVGs and  ES.next.
 * bugs: 
  1. when ball hits paddle and box wall, it is kind of "trapped" and keeps spinning;
  2. the game pauses when player wins, but it should stop. Otherwise, when player presses space bar, game continues to play even after 50 points.
+
+ --------------------------------
+ more inspiration [https://codepen.io/collection/DryGkb/]

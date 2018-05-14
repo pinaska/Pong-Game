@@ -53,7 +53,7 @@ export default class Ball{
            this.vx = Math.round(Math.random() * 10 - 5);
            this.vy = Math.round(Math.random() * 10 - 5);    
         }
-        //with the followng code the angles changes and game is more interesting and prevent lazy pond (When you can just leave your paddles and go for a lunch)
+        //with the following code the angles changes and game is more interesting and prevent lazy pond (When you can just leave your paddles and go for a lunch)
         
         // while(this.vy === 0){
         //     this.vy = Math.floor(Math.random() * 10 - 5);
@@ -61,22 +61,6 @@ export default class Ball{
         // this.vx = this.direction * (6-Math.abs(this.vy));
     }
 
-    wallCollision(){
-        const hitLeft = this.x - this.radius <= 0;
-        const hitRight = this.x + this.radius >= this.boardWidth;//check if boardWidth can be just width from game.js
-        const hitTop = this.y - this.radius <= 0;
-        const hitBottom = this.y + this.radius >= this.boardHeight;//can be this.width?
-
-        if (hitLeft || hitRight){
-            this.vx *= -1;
-        }
-        else if (hitTop || hitBottom){
-            this.vy *= -1;
-        }
-    
-    }
-
-      //10.05
     collideWithBox(x, y, width, height){
         let halfWidth = width / 2;
         let halfHeight = height / 2;
@@ -100,7 +84,7 @@ export default class Ball{
         }
 
         // handle corner case
-        let cornerDistanceSquared = centerDistanceX * centerDistanceX + centerDistanceY * centerDistanceY;
+        let cornerDistanceSquared = (this.x - halfWidth) * (this.x - halfWidth) + (this.y - halfHeight) * (this.y - halfHeight);
 
         if (cornerDistanceSquared <= this.radius * this.radius)
         {
@@ -129,8 +113,6 @@ export default class Ball{
 
 
     render(svg){
-        this.wallCollision();
-
         //draw ball
         let circle = document.createElementNS(SVG_NS, 'circle');
         circle.setAttributeNS(null, 'r', this.radius);
