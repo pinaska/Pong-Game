@@ -2,8 +2,15 @@ import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
 import Score from './Score';
-import {SVG_NS, KEYS} from '../settings';
+import {SVG_NS} from '../settings';
 
+//list f game's states. To make game start and ends, and reloads
+const GameStates = {
+	'start': 0,
+	'paused': 1,
+	'win': 2,
+	'game': 3
+};
 
 export default class Game {
 
@@ -18,8 +25,8 @@ export default class Game {
 		this.paddleHeight = 56;
 		this.boardGap = 10;
 		this.maxPoints = 50;
-		this.pause = false;
 		this.winner = '';
+		this.state = GameStates.start;
 		
 		this.ball = new Ball(this.width / 2, this.height / 2, 8);
 		this.ball2 = new Ball(this.width / 2, this.height / 2, 4);
@@ -55,7 +62,16 @@ export default class Game {
         document.addEventListener('keydown', event => {
             this.keyState[getKey(event)] = true;   
 			if(event.key === ' ') {
-				this.pause = !this.pause;
+				if (this.state === GameStates.start || this.state === GameStates.paused) {
+					this.state = GameStates.game;
+				} else if (this.state === GameStates.game) {
+					this.state = GameStates.paused;	
+				} else {
+					this.player1.score = 0;
+					this.player2.score = 0;
+					this.winner = '';
+					this.state = GameStates.start;
+				}
 			}
 		}, true);
 
@@ -90,16 +106,16 @@ export default class Game {
 		if (ball.collideWithBox(0, 0, 1, this.height)){
 			this.player2.score += 1;
 			if(this.player2.score === this.maxPoints){
-				this.pause = true;
 				this.winner = 'player 2';
+				this.state = GameStates.win;
 			}
 			ball.reset(this.width/2, this.height/2);
 		}
 		if (ball.collideWithBox(this.width, 0, 1, this.height)){
 			this.player1.score += 1;
 			if(this.player1.score === this.maxPoints){
-				this.pause = true;
 				this.winner = 'player 1';
+				this.state = GameStates.win;
 			}
 			ball.reset(this.width/2, this.height/2);
 		}
@@ -115,34 +131,34 @@ export default class Game {
 	}
 
 	render() {
-		//render the pause method
-		if(this.pause){
-			return;
-		}
-		//start moving balls
-		this.moveObjects();
 		this.gameElement.innerHTML='';
 		
 		let svg = document.createElementNS(SVG_NS, 'svg');
 		svg.setAttributeNS(null, 'width', this.width);
 		svg.setAttributeNS(null, 'height', this.height);
 		svg.setAttributeNS(null, 'viewBox', `0 0 ${this.width} ${this.height}`);
-		
 		this.gameElement.appendChild(svg);
-
 		this.board.render(svg);
+
+		//render the pause method
+		if (this.state === GameStates.start){
+			this.status.render(svg, 'space to start');
+		} else if (this.state === GameStates.paused){
+			this.status.render(svg, 'Paused');
+		} else if (this.state === GameStates.win){
+			this.status.render(svg, this.winner + ' won!');
+		} else {
+			//start moving balls
+			this.moveObjects();
+		} 
+		
 		this.player2.render(svg);
 		this.player1.render(svg);
 		this.ball.render(svg);
 		this.ball2.render(svg);
-		if (this.winner.length > 0) {
-			this.status.render(svg, this.winner + ' won!');
-		}
 		this.score1.render(svg, this.player1.score);
 		this.score2.render(svg, this.player2.score);
 		this.colon.render(svg, ':');
-
-		
 	}
 
 }
