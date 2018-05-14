@@ -20,7 +20,7 @@ A basic pong game using SVGs and  ES.next.
 * The game has been tested by 6y and 11y boys. Based on their input, UI has been changed for player 1: keys for paddle's movement: 'w' & 's'. One user case: While playing,caps lock key was hit by accident and the key listeners stopped working (to solve: method toLowerCase).
 * bugs: 
  1. when ball hits paddle and box wall, it is kind of "trapped" and keeps spinning;
- 2. ~~the game pauses when player wins, but it should stop. Otherwise, when player presses space bar, game continues to play even after 50 points.~~ This has been fixed with the help from software  (using map aka dictionary, need to research and practice it)
+ 2. ~~the game pauses when player wins, but it should stop. Otherwise, when player presses space bar, game continues to play even after 50 points.~~ This has been fixed with the help from software developer (const GameState object? need to research and practice it...)
 
  --------------------------------
  [more inspiration](https://codepen.io/collection/DryGkb/)
