@@ -66,7 +66,7 @@ table {
  * GAME
  */
 
-*{
+* {
   box-sizing: border-box;
 }
 html {
@@ -89,17 +89,14 @@ h1 {
   margin-bottom: 1rem; 
   text-align: center;
 }
-h1, h2, p{
-  padding: 5px 0px;
-}
-/* heart animation */
-.heart{
-  animation: pulse 2s infinite;
-}
-
 h2{
   font-size: 1.5rem;
 }
+h1, h2, p{
+  padding: 5px 0px;
+}
+
+
 .game-instruction{
   border: 1px solid #D90368;
   padding: 5px;
@@ -111,7 +108,6 @@ button{
   outline: white;
   background: #FFE01F;
   font-family: inherit;
-  /* animation: pulse 2s infinite; */
   padding: 5px;
   border: 1px solid #FFE01F;
 }
